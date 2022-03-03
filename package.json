@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "build": "ncc build -m zsw-bios-boot.js"
+    "build": "ncc build -m index.js && mv ./dist/index.js ./dist/zsw-bios-boot.min.js"
   },
   "author": "Code",
   "license": "ISC",
