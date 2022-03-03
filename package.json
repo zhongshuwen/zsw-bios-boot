@@ -1,10 +1,11 @@
 {
-  "name": "biosboot2",
+  "name": "zsw-bios-boot",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "build": "ncc build -m zsw-bios-boot.js"
   },
   "author": "Code",
   "license": "ISC",
