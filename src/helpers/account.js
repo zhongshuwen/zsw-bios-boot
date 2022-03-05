@@ -186,7 +186,7 @@ async function transferComputeCredits(api, authorization, {from, to, quantity, m
   
 }
 async function resignPermission(api, authorization, accountName, permission, parent, controller, controllerPermission) {
-  return resignPermissionCustom(api, authorization, accountName, permission, parent,
+  return updateAuth(api, authorization, accountName, permission, parent,
     {
       'threshold': 1, 'keys': [], 'waits': [],
       'accounts': [{
@@ -196,7 +196,7 @@ async function resignPermission(api, authorization, accountName, permission, par
     });
 }
 async function resignPermissionTozswhqAndX(api, authorization, accountName, permission, parent, controller, controllerPermission) {
-  return resignPermissionCustom(api, authorization, accountName, permission, parent,
+  return updateAuth(api, authorization, accountName, permission, parent,
     {
       'threshold': 1, 'keys': [], 'waits': [],
       'accounts': [{
@@ -208,7 +208,18 @@ async function resignPermissionTozswhqAndX(api, authorization, accountName, perm
       }]
     });
 }
-async function resignPermissionCustom(api, authorization, accountName, permission, parent, authSettings){
+async function setAuthKey(api, authorization, accountName, permission, parent, key){
+  return updateAuth(api, authorization, accountName, permission, parent, {
+    "threshold": 1,
+    "keys": [{
+      "key": key,
+      "weight": 1
+    }],
+    "accounts": [],
+    "waits": []
+  })
+}
+async function updateAuth(api, authorization, accountName, permission, parent, authSettings){
   const auth  = parseAuth(authorization);
 
   const result = await api.transact({
@@ -239,7 +250,8 @@ module.exports = {
   transferComputeCredits,
   resignPermission,
   resignPermissionTozswhqAndX,
-  resignPermissionCustom,
+  updateAuth,
+  setAuthKey,
   
   
 }

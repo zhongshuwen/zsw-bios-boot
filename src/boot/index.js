@@ -4,7 +4,7 @@ const CONFIG = require("../config");
 
 
 const { getSystemSetupAPI, getZswAdminAPI, getZswMode2ContractAPI, getAPIForPrivateKeys } = require("../helpers/api");
-const {createAccountBasic, createAccountWithResources, resignPermission, transferComputeCredits, resignPermissionTozswhqAndX, buyResources} = require('../helpers/account');
+const {createAccountBasic, createAccountWithResources, resignPermission, transferComputeCredits, resignPermissionTozswhqAndX, buyResources, setAuthKey} = require('../helpers/account');
 const {producerPreactivateFeatures, activateFeature} = require('../helpers/chain')
 const {readParseContractBuildFiles, parseAuth} = require('../helpers/misc')
 const {registerProducer, voteProducer} = require('../helpers/voting')
@@ -382,11 +382,13 @@ async function setupNewBPAccount(api, accountName, ownerPubKey, activePubKey, pr
   await registerProducer(api, accountName+'@active', accountName, producerPubKey, url, location);
 }
 async function setupFirstProducer() {
-  const fpAPI = getAPIForPrivateKeys([CONFIG.PRODUCER_1_PRIVATE_KEY]);
+  const fpAPI = getAPIForPrivateKeys([CONFIG.ZSW_MODE_2_PRIVATE_KEY]);
   const prodName = CONFIG.PRODUCER_1_NAME;
-  await setupNewBPAccount(fpAPI, prodName, CONFIG.PRODUCER_1_PUBLIC_KEY, CONFIG.PRODUCER_1_PUBLIC_KEY, CONFIG.PRODUCER_1_PUBLIC_KEY, "https://producer1.zhongshuwen.com", 0);
+  await setupNewBPAccount(fpAPI, prodName, CONFIG.ZSW_MODE_2_PUBLIC_KEY, CONFIG.ZSW_MODE_2_PUBLIC_KEY, CONFIG.PRODUCER_1_PUBLIC_KEY, "https://producer1.zhongshuwen.com", 0);
   console.log("created first bp account");
   await voteProducer(adminAPI, 'zsw.admin@active', 'zsw.admin', '', [prodName]);
+  await setAuthKey(fpAPI, prodName+"@active", prodName, "active", "owner", CONFIG.PRODUCER_1_ACTIVE_PUBLIC_KEY);
+  await setAuthKey(fpAPI, prodName+"@owner", prodName, "owner", "owner", CONFIG.PRODUCER_1_ACTIVE_PUBLIC_KEY);
 }
 async function setupChain(){
 
@@ -402,6 +404,7 @@ async function setupChain(){
 
 
 }
+
 async function resignBootAccount(api, accountName, controller, controllerPermission){
   await resignPermission(api, accountName+'@owner', accountName,'owner', '', controller, controllerPermission || 'active');
   await resignPermission(api, accountName+'@active', accountName, 'active', 'owner', controller, controllerPermission || 'active');
@@ -448,6 +451,12 @@ async function finishBaseSetupAndResign(){
 
   await resignBootAccounts();
   await sleep(2000);
+  if(CONFIG.ZSW_ADMIN_ACTIVE_PUBLIC_KEY !== CONFIG.ZSW_ADMIN_PUBLIC_KEY){
+    await setAuthKey(adminAPI, 'zsw.admin@active', 'zsw.admin', 'active', 'owner', CONFIG.ZSW_ADMIN_ACTIVE_PUBLIC_KEY);
+  }
+  if(CONFIG.ZSW_ADMIN_OWNER_PUBLIC_KEY !== CONFIG.ZSW_ADMIN_PUBLIC_KEY){
+    await setAuthKey(adminAPI, 'zsw.admin@owner', 'zsw.admin', 'owner', 'owner', CONFIG.ZSW_ADMIN_OWNER_PUBLIC_KEY);
+  }
 }
 module.exports = {
   setupChain,
