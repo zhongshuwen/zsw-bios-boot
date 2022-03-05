@@ -388,7 +388,7 @@ async function setupFirstProducer() {
   console.log("created first bp account");
   await voteProducer(adminAPI, 'zsw.admin@active', 'zsw.admin', '', [prodName]);
   await setAuthKey(fpAPI, prodName+"@active", prodName, "active", "owner", CONFIG.PRODUCER_1_ACTIVE_PUBLIC_KEY);
-  await setAuthKey(fpAPI, prodName+"@owner", prodName, "owner", "owner", CONFIG.PRODUCER_1_ACTIVE_PUBLIC_KEY);
+  await setAuthKey(fpAPI, prodName+"@owner", prodName, "owner", "", CONFIG.PRODUCER_1_ACTIVE_PUBLIC_KEY);
 }
 async function setupChain(){
 
@@ -455,7 +455,7 @@ async function finishBaseSetupAndResign(){
     await setAuthKey(adminAPI, 'zsw.admin@active', 'zsw.admin', 'active', 'owner', CONFIG.ZSW_ADMIN_ACTIVE_PUBLIC_KEY);
   }
   if(CONFIG.ZSW_ADMIN_OWNER_PUBLIC_KEY !== CONFIG.ZSW_ADMIN_PUBLIC_KEY){
-    await setAuthKey(adminAPI, 'zsw.admin@owner', 'zsw.admin', 'owner', 'owner', CONFIG.ZSW_ADMIN_OWNER_PUBLIC_KEY);
+    await setAuthKey(adminAPI, 'zsw.admin@owner', 'zsw.admin', 'owner', '', CONFIG.ZSW_ADMIN_OWNER_PUBLIC_KEY);
   }
 }
 module.exports = {
