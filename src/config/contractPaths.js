@@ -4,8 +4,13 @@ const ZSW_CORE_CONTRACTS_BASE_PATH = process.env.ZSW_CORE_CONTRACTS_BASE_PATH ||
 
 const CONTRACT_PATHS = {
   "zswhq.boot": {
+    /*
     abi: ZSW_CHAIN_CONTRACTS_BASE_PATH+"eosio.boot/bin/eosio.boot.abi",
     wasm: ZSW_CHAIN_CONTRACTS_BASE_PATH+"eosio.boot/bin/eosio.boot.wasm",
+    */
+    
+    abi: ZSW_CHAIN_CONTRACTS_BASE_PATH+"eosio.boot/eosio.boot.abi",
+    wasm: ZSW_CHAIN_CONTRACTS_BASE_PATH+"eosio.boot/eosio.boot.wasm",
   },
   "zswhq.token": {
     abi: ZSWHQ_CONTRACTS_BASE_PATH+"eosio.token/eosio.token.abi",
