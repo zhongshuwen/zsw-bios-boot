@@ -35,6 +35,7 @@ const BOOT_SYSTEM_ACCOUNTS = [
   'zswhq.token',
   'zswhq.vpay',
   'zswhq.rex',
+  'nullnullnull',
   'zsw.perms',
   'zsw.prmcore',
   'noopnoopnoop'
@@ -182,6 +183,7 @@ async function setupZSWCoreContracts() {
     'zswhq.token',
     'zswhq.vpay',
     'zswhq.rex',
+    'nullnullnull',
     'zsw.perms',
     'zsw.prmcore',
     'zswhq',
