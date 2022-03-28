@@ -13,7 +13,7 @@
     "axios": "^0.25.0",
     "bn.js": "^5.2.0",
     "node-fetch": "^2.6.7",
-    "zswjs": "^1.2.0"
+    "zswjs": "^1.3.5"
   },
   "devDependencies": {
     "dotenv": "^14.2.0"
